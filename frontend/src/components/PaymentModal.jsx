@@ -99,10 +99,6 @@ export default function PaymentModal({ isOpen, onClose, trip, currentUser, onPay
 
   const handlePay = async (e) => {
     e.preventDefault();
-    if (!recipientEmail || !recipientEmail.includes('@')) {
-      alert('Please enter a valid email address to receive your payment confirmation.');
-      return;
-    }
 
     try {
       setIsSubmitting(true);
@@ -110,7 +106,7 @@ export default function PaymentModal({ isOpen, onClose, trip, currentUser, onPay
         amount: numAmount,
         currency: 'INR',
         paymentMethod: paymentMethod === 'UPI' ? `UPI (${selectedUpiApp})` : paymentMethod,
-        recipientEmail: recipientEmail.trim(),
+        recipientEmail: recipientEmail?.trim() || currentUser?.email || '',
         paymentDetails: {
           upiId: paymentMethod === 'UPI' ? upiId : undefined,
           cardLast4: paymentMethod === 'Card' ? cardNumber.slice(-4) : undefined,
@@ -209,34 +205,16 @@ export default function PaymentModal({ isOpen, onClose, trip, currentUser, onPay
               </p>
             </div>
 
-            {/* Email Notification Banner */}
+            {/* Payment Verified Banner */}
             <div className="email-sent-banner glass-panel">
-              <Mail size={20} className="text-cyan flex-shrink-0" />
+              <ShieldCheck size={20} className="text-emerald flex-shrink-0" />
               <div className="email-sent-info">
-                <span className="email-sent-label">Confirmation & Itemized Invoice Dispatched To:</span>
-                <strong className="email-sent-address">{paymentResult.emailSentTo}</strong>
-                
-                {paymentResult.isRealDelivery ? (
-                  <div className="delivery-status-tag text-emerald text-xs mt-1">
-                    ✓ Delivered to your real email inbox via SMTP
-                  </div>
-                ) : (
-                  <div className="delivery-status-note text-xs mt-1">
-                    <span className="text-secondary">Official Invoice & Category Split Generated Successfully!</span>
-                  </div>
-                )}
+                <span className="email-sent-label">Payment Confirmed & Verified</span>
+                <div className="delivery-status-note text-xs mt-1">
+                  <span className="text-secondary">Expenses categorized and logged directly to your trip balance.</span>
+                </div>
 
                 <div className="invoice-action-links mt-2 flex flex-wrap gap-2">
-                  <button 
-                    type="button"
-                    onClick={handleOpenGmail}
-                    className="view-invoice-btn gmail-action-btn"
-                    title="Open in your real Gmail in 1 click"
-                  >
-                    <Send size={13} />
-                    <span>Open in Gmail (1-Click)</span>
-                  </button>
-
                   <button 
                     type="button"
                     onClick={handlePrint}
@@ -256,18 +234,6 @@ export default function PaymentModal({ isOpen, onClose, trip, currentUser, onPay
                     <span>📄 Open Full Invoice (HTML)</span>
                     <ExternalLink size={12} />
                   </a>
-
-                  {paymentResult.emailPreviewUrl && (
-                    <a 
-                      href={paymentResult.emailPreviewUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="view-email-link"
-                    >
-                      <span>✉️ Ethereal Sandbox Link</span>
-                      <ExternalLink size={12} />
-                    </a>
-                  )}
                 </div>
               </div>
             </div>
@@ -396,24 +362,6 @@ export default function PaymentModal({ isOpen, onClose, trip, currentUser, onPay
               </div>
             </div>
 
-            {/* User Recipient Email Input */}
-            <div className="form-group">
-              <label className="form-label flex items-center justify-between">
-                <span>Send Booking Details & Invoice To Email *</span>
-                <span className="text-muted text-xs">Required for receipt delivery</span>
-              </label>
-              <div className="input-with-icon">
-                <Mail size={16} className="input-icon text-cyan" />
-                <input 
-                  type="email" 
-                  required
-                  value={recipientEmail}
-                  onChange={e => setRecipientEmail(e.target.value)}
-                  placeholder="Enter your email (e.g. user@gmail.com)"
-                  className="form-input with-left-icon"
-                />
-              </div>
-            </div>
 
             {/* Payment Method Selector Tabs */}
             <div className="form-group">
@@ -584,12 +532,12 @@ export default function PaymentModal({ isOpen, onClose, trip, currentUser, onPay
                 {isSubmitting ? (
                   <>
                     <Loader2 size={18} className="spinner" />
-                    <span>Processing Payment & Dispatching Email...</span>
+                    <span>Processing Payment...</span>
                   </>
                 ) : (
                   <>
                     <ShieldCheck size={18} />
-                    <span>Pay {formatAmount(numAmount)} & Send Confirmation</span>
+                    <span>Pay {formatAmount(numAmount)} & Confirm Allocation</span>
                     <ArrowRight size={16} />
                   </>
                 )}

@@ -32,7 +32,7 @@ export default function Navbar({
         {/* Brand */}
         <div className="navbar-brand" onClick={() => setActiveTab('explore')}>
           <div className="brand-icon-wrapper">
-            <img src="/logo.png" alt="TripMate Logo" className="brand-logo-img" />
+            <img src="./logo.png" alt="TripMate Logo" className="brand-logo-img" />
           </div>
           <div className="brand-text">
             <span className="brand-title">Trip<span className="brand-accent">Mate</span></span>

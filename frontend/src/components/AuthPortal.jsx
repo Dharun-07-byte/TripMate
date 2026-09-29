@@ -107,7 +107,7 @@ export default function AuthPortal({ onAuthSuccess }) {
           {/* Brand Header */}
           <div className="auth-card-brand">
             <div className="auth-brand-logo">
-              <img src="/logo.png" alt="TripMate Logo" className="auth-brand-logo-img" />
+              <img src="./logo.png" alt="TripMate Logo" className="auth-brand-logo-img" />
             </div>
             <div className="auth-brand-text">
               <h1 className="auth-brand-title">Trip<span className="brand-accent">Mate</span></h1>

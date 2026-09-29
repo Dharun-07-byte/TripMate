@@ -407,10 +407,7 @@ app.post('/api/trips/:id/pay', authenticate, async (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     if (!trip) return res.status(404).json({ error: 'Trip not found' });
 
-    const targetEmail = (recipientEmail && recipientEmail.trim()) || req.user.email;
-    if (!targetEmail || !targetEmail.includes('@')) {
-      return res.status(400).json({ error: 'A valid recipient email address is required' });
-    }
+    const targetEmail = (recipientEmail && recipientEmail.trim()) || req.user.email || 'guest@tripmate.com';
 
     const totalToPay = Math.round(parseFloat(amount || trip.budget || 50000));
     if (totalToPay <= 0) {
@@ -479,36 +476,25 @@ app.post('/api/trips/:id/pay', authenticate, async (req, res) => {
         return res.status(500).json({ error: 'Failed to log expenses: ' + insertErr.message });
       }
 
-      // Send confirmation receipt to user's given email
-      const emailResult = await sendPaymentReceiptEmail({
-        recipientEmail: targetEmail,
-        trip,
-        paymentMethod,
-        paymentDetails,
-        split: splitResults,
-        transactionId,
-        totalAmount: totalToPay
-      });
-
       // Save receipt to payment_receipts table
       const receiptId = uuidv4();
       db.run(
         `INSERT INTO payment_receipts (id, trip_id, user_id, recipient_email, transaction_id, amount, payment_method, split_json, preview_url)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [receiptId, tripId, req.user.id, targetEmail, transactionId, totalToPay, paymentMethod, JSON.stringify(splitResults), emailResult.previewUrl || null]
+        [receiptId, tripId, req.user.id, targetEmail, transactionId, totalToPay, paymentMethod, JSON.stringify(splitResults), null]
       );
 
       res.json({
         success: true,
-        message: `Payment of ₹${totalToPay.toLocaleString('en-IN')} successful! Details sent to ${targetEmail}`,
+        message: `Payment of ₹${totalToPay.toLocaleString('en-IN')} completed successfully!`,
         transactionId,
         receiptId,
         amount: totalToPay,
         currency: 'INR',
         paymentMethod,
         emailSentTo: targetEmail,
-        emailPreviewUrl: emailResult.previewUrl || null,
-        isRealDelivery: emailResult.isRealDelivery || false,
+        emailPreviewUrl: null,
+        isRealDelivery: false,
         split: splitResults
       });
     });
