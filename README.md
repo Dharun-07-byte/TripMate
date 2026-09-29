@@ -1,5 +1,11 @@
 # 🌴 TripMate - AI-Powered Travel Companion
 
+[![GitHub Pages](https://img.shields.io/badge/Live_Demo-GitHub_Pages-22c55e?style=for-the-badge&logo=github)](https://dharun-07-byte.github.io/TripMate/)
+[![React 19](https://img.shields.io/badge/Frontend-React_19_%26_Vite-61dafb?style=for-the-badge&logo=react)](https://react.dev/)
+[![Express 5](https://img.shields.io/badge/Backend-Node_%26_Express-68a063?style=for-the-badge&logo=node.js)](https://expressjs.com/)
+
+> 🌐 **Live Web Application:** [https://dharun-07-byte.github.io/TripMate/](https://dharun-07-byte.github.io/TripMate/)
+
 TripMate is a full-stack smart travel management platform designed to help travelers discover destinations, plan detailed daily itineraries, manage packing checklists, track travel expenses, and organize trip documents seamlessly.
 
 ---
@@ -10,7 +16,7 @@ TripMate is a full-stack smart travel management platform designed to help trave
 - 📅 **Interactive Day-by-Day Itineraries**: Plan activities, dining, and accommodations for every leg of your trip.
 - 🎒 **Smart Packing Assistant**: Category-organized packing checklists with progress tracking and quick toggle.
 - 💰 **Budget & Expense Tracking**: Categorized expense breakdowns, multi-currency support, and payment receipt confirmations.
-- 📬 **Interactive Mailbox**: View real-time email notifications, invoice receipts, and booking summaries.
+- 📬 **Interactive Mailbox**: View digital invoice receipts, booking summaries, and transaction history.
 - 🔐 **Authentication & User Profiles**: Secure JWT authentication, custom profile preferences, and currency settings.
 
 ---
