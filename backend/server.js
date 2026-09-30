@@ -16,6 +16,26 @@ const JWT_SECRET = process.env.JWT_SECRET || 'tripmate_super_secret_key_2026';
 app.use(cors());
 app.use(express.json());
 
+// --- HEALTH CHECK ENDPOINT ---
+app.get(['/health', '/api/health'], (req, res) => {
+  db.get('SELECT 1', [], (err) => {
+    if (err) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Database connection failed',
+        error: err.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+    res.json({
+      status: 'healthy',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+      database: 'connected'
+    });
+  });
+});
+
 // Authentication Middleware
 const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
