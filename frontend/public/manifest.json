@@ -1,0 +1,17 @@
+{
+  "short_name": "TripMate",
+  "name": "TripMate — Travel Companion & Itinerary Planner",
+  "description": "Intelligent travel companion and itinerary planner. Plan journeys, track budgets, organize daily activities, and discover stunning destinations.",
+  "icons": [
+    {
+      "src": "./logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./",
+  "background_color": "#0b0f19",
+  "theme_color": "#3b82f6",
+  "display": "standalone",
+  "orientation": "portrait"
+}
