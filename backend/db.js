@@ -115,6 +115,13 @@ db.serialize(() => {
     )
   `);
 
+  // Optimize Query Performance with Indexes
+  db.run(`CREATE INDEX IF NOT EXISTS idx_trips_user_id ON trips(user_id)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_itinerary_items_trip_id ON itinerary_items(trip_id)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_expenses_trip_id ON expenses(trip_id)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_bookings_user_id ON bookings(user_id)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_payment_receipts_user_id ON payment_receipts(user_id)`);
+
   // Seed default demo user and initial trips if empty
   db.get("SELECT COUNT(*) as count FROM users", async (err, row) => {
     if (err) return console.error(err);
