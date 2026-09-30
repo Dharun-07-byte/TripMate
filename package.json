@@ -7,7 +7,7 @@
     "dev:backend": "node backend/server.js",
     "dev:frontend": "npm.cmd --prefix frontend run dev",
     "build:frontend": "npm.cmd --prefix frontend run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test backend/test/*.test.js frontend/src/utils/*.test.js"
   },
   "keywords": [],
   "author": "",
